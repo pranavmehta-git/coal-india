@@ -13,6 +13,7 @@
     --solar:   #f5a623;
     --wind:    #14b8a6;
     --battery: #ec4899;
+    --txn:     #64748b;
     --short:   #ef4444;
     --ink:     #15233b;
     --muted:   #5b6b82;
@@ -35,9 +36,9 @@
     padding: 28px 32px 22px;
   }
   header h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -0.3px; }
-  header p { margin: 0; max-width: 760px; color: #c8d6ea; font-size: 14.5px; }
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 22px 24px 60px; }
-  .layout { display: grid; grid-template-columns: 320px 1fr; gap: 22px; align-items: start; }
+  header p { margin: 0; max-width: 820px; color: #c8d6ea; font-size: 14.5px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 22px 24px 30px; }
+  .layout { display: grid; grid-template-columns: 330px 1fr; gap: 22px; align-items: start; }
   @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
 
   .panel {
@@ -52,14 +53,18 @@
     color: var(--muted); margin: 0 0 14px;
   }
 
-  /* Sliders */
   .src { margin-bottom: 14px; }
   .src-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
   .src-name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13.5px; }
-  .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
-  .src-val { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13.5px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: 0 0 auto; }
+  .src-val { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13.5px; white-space: nowrap; }
   .src-val small { color: var(--muted); font-weight: 500; }
   input[type=range] { width: 100%; accent-color: #243b5e; cursor: pointer; }
+  .demand-box {
+    border: 1px dashed #9fb0c8; border-radius: 10px; padding: 10px 12px 6px; margin-bottom: 16px;
+    background: #f8fafd;
+  }
+  .demand-box .hint { font-size: 11px; color: var(--muted); margin: 2px 0 0; }
 
   .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
   .preset {
@@ -70,8 +75,7 @@
   .preset:hover { border-color: #94a3b8; }
   .preset.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-  /* KPIs */
-  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
   @media (max-width: 720px) { .kpis { grid-template-columns: repeat(2,1fr); } }
   .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
   .kpi .label { font-size: 11.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
@@ -92,18 +96,38 @@
   .verdict .dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 5px; flex: 0 0 auto; }
   .verdict strong { display: block; margin-bottom: 2px; }
 
+  /* transition cost panel */
+  .capex-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .capex-big { font-size: 30px; font-weight: 800; letter-spacing: -0.7px; font-variant-numeric: tabular-nums; }
+  .capex-usd { font-size: 15px; color: var(--muted); font-weight: 600; }
+  .capex-note { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+  .capex-bars { display: flex; flex-direction: column; gap: 7px; margin-bottom: 12px; }
+  .cb-row { display: grid; grid-template-columns: 150px 1fr 130px; align-items: center; gap: 10px; font-size: 12.5px; }
+  .cb-name { display: flex; align-items: center; gap: 7px; font-weight: 600; }
+  .cb-track { background: #f0f3f8; border-radius: 5px; height: 14px; position: relative; overflow: hidden; }
+  .cb-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; min-width: 2px; }
+  .cb-val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+  .capex-ctx { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+  .capex-ctx li { margin-bottom: 4px; }
+
+  details.assump { max-width: 1240px; margin: 0 auto; padding: 0 24px 20px; }
+  details.assump summary { cursor: pointer; font-weight: 700; font-size: 14px; color: var(--ink); padding: 8px 0; }
+  details.assump .panel { font-size: 13px; }
+  table.atable { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  table.atable th, table.atable td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.atable th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
   footer { color: var(--muted); font-size: 11.5px; max-width: 1240px; margin: 0 auto; padding: 0 24px 40px; }
-  footer code { background: #eef2f8; padding: 1px 5px; border-radius: 4px; }
   a { color: #2563eb; }
 </style>
 </head>
 <body>
 <header>
   <h1>India's Coal Dilemma — An Energy Security Simulator</h1>
-  <p>India runs on coal: roughly three-quarters of its electricity is generated by burning it. This tool lets you
-     rebuild the power fleet — slide capacity away from coal, add solar, wind, nuclear or batteries — and watch what
-     happens to a single day of demand. The question isn't whether clean power is cleaner. It's whether the lights stay on
-     after the sun goes down.</p>
+  <p>India generates roughly 70% of its electricity from coal, and its peak demand — an all-time-high
+     <b>256&nbsp;GW</b> met in April 2026 — is officially projected to reach <b>366&nbsp;GW by 2032</b> and
+     <b>459&nbsp;GW by 2036</b>. This tool lets you rebuild the power fleet against that growing demand and see,
+     hour by hour, whether the lights stay on after sunset — and what the build-out costs in real rupees.
+     Every number is sourced (see <i>Assumptions &amp; sources</i> below).</p>
 </header>
 
 <div class="wrap">
@@ -111,12 +135,23 @@
 
     <!-- CONTROLS -->
     <div class="panel" id="controls">
-      <h2>Build the fleet (GW installed)</h2>
+      <h2>Build the fleet</h2>
 
       <div class="presets" id="presets"></div>
-      <p style="font-size:12px;color:var(--muted);margin:2px 0 16px;">
-        Start from a scenario, then drag any source. Peak demand is fixed at <b>245&nbsp;GW</b>.
+      <p style="font-size:12px;color:var(--muted);margin:2px 0 14px;">
+        Start from a scenario, then drag any source.
       </p>
+
+      <div class="demand-box">
+        <div class="src" style="margin-bottom:4px">
+          <div class="src-head">
+            <span class="src-name">Peak demand (year)</span>
+            <span class="src-val" id="val-demand"></span>
+          </div>
+          <input type="range" id="sl-demand" min="220" max="500" step="2">
+        </div>
+        <p class="hint">CEA projections: 256 GW met in 2026 · 366 GW by 2031-32 · 459 GW by 2035-36</p>
+      </div>
 
       <div id="sliders"></div>
     </div>
@@ -134,6 +169,19 @@
       </div>
 
       <div class="panel chart-card">
+        <h2>What this fleet costs to build (vs. today's fleet)</h2>
+        <div class="capex-head">
+          <span class="capex-big" id="capex-big"></span>
+          <span class="capex-usd" id="capex-usd"></span>
+        </div>
+        <p class="capex-note">Overnight capital cost of capacity <b>added beyond the early-2026 fleet</b>, at current
+           Indian benchmark costs. Retired capacity earns no credit (stranded-asset and decommissioning costs are ignored —
+           the true bill is higher).</p>
+        <div class="capex-bars" id="capex-bars"></div>
+        <ul class="capex-ctx" id="capex-ctx"></ul>
+      </div>
+
+      <div class="panel chart-card">
         <h2>Where the day's electricity comes from</h2>
         <canvas id="mix" height="70"></canvas>
       </div>
@@ -141,90 +189,159 @@
   </div>
 </div>
 
+<details class="assump">
+  <summary>Assumptions &amp; sources — every number in this model, with citations</summary>
+  <div class="panel">
+  <table class="atable">
+    <tr><th>Quantity</th><th>Value used</th><th>Source</th></tr>
+    <tr><td>Installed fleet, "India today" preset</td><td>Coal+lignite ~226 GW, gas 20 GW, nuclear ~9 GW, hydro (incl. pumped storage) ~52 GW, solar ~135 GW, wind ~53 GW, storage ~35 GWh; total fleet ~514 GW (Dec 2025)</td>
+      <td><a href="https://cea.nic.in/installed-capacity-report/?lang=en">CEA installed capacity reports</a>; <a href="https://powerpeakdigest.com/indias-installed-power-capacity-crosses-513-gw-by-end-2025/">Power Peak Digest (end-2025)</a>; <a href="https://jmkresearch.com/india-adds-record-37-9-gw-of-solar-and-6-3-gw-of-wind-capacity-in-cy2025/">JMK Research (CY2025 additions)</a></td></tr>
+    <tr><td>Peak demand today</td><td>256 GW (all-time high, met without shortage, April 2026); ~270 GW expected summer 2026</td>
+      <td><a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2256313">PIB, Ministry of Power</a></td></tr>
+    <tr><td>Demand projections</td><td>366.4 GW peak / 2,473.8 BU by 2031-32; 459 GW peak by 2035-36</td>
+      <td><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1928750">CEA National Electricity Plan 2022-32</a>; <a href="https://www.mercomindia.com/cea-projects-indias-peak-power-demand-to-reach-459-gw-by-2035-36">CEA 20th EPS mid-term review</a></td></tr>
+    <tr><td>"CEA plan 2031-32" preset</td><td>Coal 260 GW, solar 364.6 GW, wind 121.9 GW, nuclear 19.7 GW, hydro 62 GW, storage 411 GWh (236 GWh BESS + 175 GWh pumped hydro); total 900 GW</td>
+      <td><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1928750">CEA NEP (notified May 2023)</a></td></tr>
+    <tr><td>"CEA vision 2035-36" preset</td><td>Coal 315 GW, solar 509 GW, wind 155 GW, nuclear 22 GW, hydro 77 GW, gas 20 GW, energy storage 174 GW (~870 GWh assumed at ~5h); total 1,121 GW</td>
+      <td><a href="https://www.energetica-india.net/news/india-targets-1121-gw-power-capacity-by-2036-with-509-gw-solar-155-gw-wind-174-gw-ess-cea">CEA 20th EPS mid-term review</a></td></tr>
+    <tr><td>Coal share of generation</td><td>~69-74% (model reproduces ~69-70% for today's fleet)</td>
+      <td><a href="https://energyandcleanair.org/publication/india-power-sector-review-2025/">CREA India power sector review 2025</a></td></tr>
+    <tr><td>Thermal plant load factor</td><td>Availability cap 85%; fleet PLF ~69.5% FY2025</td>
+      <td><a href="https://www.icra.in/Rating/DownloadResearchSummaryReport?id=6175">ICRA Indian power sector, Feb 2025</a></td></tr>
+    <tr><td>Solar capacity utilisation</td><td>Fleet-average ~17.5% CUF (midday output ~55% of nameplate — matches observed ~50-55 GW solar peaks from ~110-135 GW installed)</td>
+      <td><a href="https://www.shankariasparliament.com/current-affairs/capacity-utilization-of-renewable-energy">CUF ranges 17-25%</a>; CEA daily generation reports</td></tr>
+    <tr><td>Wind capacity utilisation</td><td>Fleet-average ~22% CUF, evening-weighted profile</td>
+      <td><a href="https://renewablewatch.in/2024/12/17/tariff-trends-review-of-renewable-energy-tender-auctions/">SECI auctions specify min. 22% CUF</a></td></tr>
+    <tr><td>Nuclear / hydro utilisation</td><td>Nuclear 80% availability; hydro 33% capacity factor (energy-limited, dispatched to peaks)</td>
+      <td>CEA generation statistics (FY24: hydro ~134 BU from ~47 GW)</td></tr>
+    <tr><td>Generation cost: solar</td><td>₹2.6/kWh</td>
+      <td><a href="https://renewablewatch.in/2024/12/17/tariff-trends-review-of-renewable-energy-tender-auctions/">2024 auctions: 19 GW awarded at avg ₹2.56/kWh</a></td></tr>
+    <tr><td>Generation cost: wind</td><td>₹3.7/kWh</td>
+      <td><a href="https://powerpeakdigest.com/seci-concludes-1-2-gw-wind-auction-with-tariffs-at-rs-3-67-3-69-per-kwh/">SECI Tranche XIX: ₹3.67-3.69/kWh</a></td></tr>
+    <tr><td>Generation cost: coal / gas / nuclear / hydro</td><td>₹4.6 / ₹7.0 / ₹4.5 / ₹4.0 per kWh (blended fleet averages; new coal is ₹5.5-6)</td>
+      <td>Discom power-purchase costs; <a href="https://ember-energy.org/app/uploads/2025/10/Coals-diminishing-role-in-Indias-electricity-transition.pdf">Ember (2025)</a></td></tr>
+    <tr><td>Storage discharge cost</td><td>₹5.0/kWh levelised (falling: solar+storage auctions hit ₹2.86-3.52/kWh; standalone LCOS ~₹4.1 by 2030)</td>
+      <td><a href="https://www.pv-magazine.com/2025/10/16/indias-solar-plus-storage-tender-sets-record-low-inr-2-86-tariff/">pv magazine</a>; <a href="https://www.mercomindia.com/levelized-cost-storage-standalone-bess">Mercom</a></td></tr>
+    <tr><td>Capex: coal</td><td>₹8.34 crore/MW</td>
+      <td><a href="https://powermin.gov.in/sites/default/files/uploads/RS05082024_Eng.pdf">Ministry of Power, Rajya Sabha answer (CEA NEP assumption, 2021-22 prices)</a></td></tr>
+    <tr><td>Capex: nuclear</td><td>₹13 crore/MW (CEA assumed ₹11 cr/MW at 2021-22 prices; recent sanctioned PHWR projects trend ~₹14-15)</td>
+      <td>CEA NEP; NPCIL project sanctions</td></tr>
+    <tr><td>Capex: solar / wind / hydro / gas</td><td>₹3.5 / ₹6.5 / ₹10.5 / ₹5.0 crore per MW</td>
+      <td><a href="https://bearworx.in/1-megawatt-solar-power-plant-in-india-2025-cost-breakdown/">Utility solar ₹3.1-4.2 cr/MW (2025)</a>; <a href="https://www.crisilratings.com/en/home/newsroom/press-releases/2024/05/wind-capex-to-more-than-double-to-rs-1-point-8-lakh-crore-by-fiscal-2028.html">CRISIL wind capex outlook</a>; recent hydro sanctions (e.g. Dibang ~₹11 cr/MW)</td></tr>
+    <tr><td>Capex: battery storage</td><td>₹1.7 crore/MWh installed (4-hour systems; down ~80% in a decade)</td>
+      <td><a href="https://www.ess-news.com/2025/12/15/india-sees-dramatic-plunge-in-battery-storage-costs-ministry-reports/">Ministry of Power, Dec 2025</a></td></tr>
+    <tr><td>Transmission adder</td><td>₹1.5 crore per MW of new solar+wind</td>
+      <td>Scaled from <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2064751">National Electricity Plan (Transmission): ₹9.15 lakh crore to 2032</a></td></tr>
+    <tr><td>Emission factors</td><td>Coal 0.97 tCO₂/MWh, gas 0.45 tCO₂/MWh</td>
+      <td>CEA CO₂ baseline database (coal stations ~0.95-1.0)</td></tr>
+    <tr><td>Coal imports</td><td>~20% of coal needs imported; thermal coal import bill ~$21 bn/yr (206 Mt, FY24); FY25 imports 243.6 Mt total</td>
+      <td><a href="https://carboncopy.info/indias-thermal-coal-imports-rose-by-58-in-last-decade-while-import-bill-shot-up-by-124-report/">CarbonCopy/iFOREST</a>; <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2131632">PIB, Ministry of Coal</a></td></tr>
+    <tr><td>Reference plan costs</td><td>CEA NEP generation fund requirement: ₹14.54 lakh crore (2022-27) + ₹19.06 lakh crore (2027-32) = ₹33.6 lakh crore, plus ₹9.15 lakh crore transmission</td>
+      <td><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1928750">CEA NEP 2022-32 (PIB)</a></td></tr>
+    <tr><td>Macro context</td><td>IEA: ~$160 bn/yr average energy investment needed to 2030; CEEW: $10.1 trillion cumulative for net-zero by 2070</td>
+      <td><a href="https://www.iea.org/commentaries/indias-clean-energy-transition-is-rapidly-underway-benefiting-the-entire-world">IEA</a>; <a href="https://www.ceew.in/press-releases/india-must-aim-for-600-gw-clean-energy-to-meet-rising-electricty-needs-and-power-demand-by-2030">CEEW</a></td></tr>
+    <tr><td>Exchange rate</td><td>₹87 per USD; ₹1 lakh crore = ₹10¹² ≈ $11.5 bn</td><td>Mid-2026 indicative</td></tr>
+  </table>
+  </div>
+</details>
+
 <footer>
-  Illustrative model for policy discussion — figures are order-of-magnitude, not a dispatch forecast. Demand peak ~245&nbsp;GW,
-  emission factors ~0.95&nbsp;tCO₂/MWh (coal) and ~0.45 (gas), indicative levelised costs in ₹/kWh. Batteries assumed 4-hour duration.
-  Self-contained: no network, no tracking — view source to see every assumption. Built as a conversation starter, not a planning tool.
+  Illustrative hourly dispatch model for policy discussion — not a planning study. It reproduces today's grid well
+  (~70% coal share, ~1.2 Gt CO₂/yr, avg cost ~₹4.5/kWh, 256 GW peak met) and its bottom-up cost of the CEA 2031-32
+  fleet (~₹30 lakh crore) independently lands near CEA's own ₹33.6 lakh crore figure. Batteries 4-hour, 85% round-trip.
+  Self-contained file: no network, no tracking — view source to audit every assumption.
 </footer>
 
 <script>
 //==================================================================
-//  MODEL
+//  MODEL — all constants sourced; see "Assumptions & sources" table
 //==================================================================
 const HOURS = 24;
-const PEAK = 245; // GW peak demand (fixed)
+const USD = 87;            // ₹ per USD (mid-2026)
+const LAKH_CRORE = 1e5;    // ₹ crore in one lakh crore
 
-// Hourly demand as fraction of peak — India-shaped: low overnight, broad
-// daytime plateau, sharp EVENING peak after sunset (the crux of the story).
+// Hourly demand as fraction of peak. Load factor ~0.80 — calibrated so the
+// CEA's 366 GW / 2,474 BU (2031-32) projection is reproduced within ~3%.
 const demandShape = [
-  0.72,0.70,0.68,0.67,0.68,0.72, // 0-5  night
-  0.78,0.84,0.88,0.90,           // 6-9  morning ramp
-  0.92,0.93,0.92,0.90,0.89,0.90,0.92, // 10-16 daytime
-  0.95,1.00,1.00,0.97,0.90,      // 17-21 EVENING PEAK
-  0.82,0.76                       // 22-23
+  0.58,0.56,0.55,0.54,0.55,0.60,      // 0-5  night
+  0.70,0.78,0.84,0.88,                // 6-9  morning ramp
+  0.92,0.94,0.93,0.91,0.90,0.91,0.93, // 10-16 daytime (AC-driven)
+  0.95,1.00,0.99,0.95,0.86,           // 17-21 evening peak
+  0.72,0.64                           // 22-23
 ];
 
-// Solar output as fraction of installed capacity (bell, zero after sunset).
+// Solar: bell peaking at 55% of nameplate → fleet CUF ~17.5%.
+// Matches observed all-India solar peaks (~50-55 GW from ~110-135 GW installed).
 const solarShape = Array.from({length:HOURS}, (_,h) => {
   if (h < 6 || h > 18) return 0;
-  return Math.max(0, Math.sin((h-6)/12 * Math.PI)) * 0.82;
+  return Math.max(0, Math.sin((h-6)/12 * Math.PI)) * 0.55;
 });
 
-// Wind — modest, stronger in the evening/overnight (helps, but variable).
+// Wind: evening-weighted, fleet CUF ~22% (SECI auction minimum).
+const WIND_SCALE = 0.75;
 const windShape = [
   0.34,0.36,0.35,0.33,0.30,0.27,0.23,0.20,0.18,0.17,0.18,0.20,
   0.22,0.24,0.26,0.29,0.33,0.38,0.42,0.40,0.37,0.36,0.35,0.34
-];
+].map(v => v*WIND_SCALE);
 
 const NUCLEAR_AVAIL = 0.80;
-const COAL_AVAIL    = 0.85;
+const COAL_AVAIL    = 0.85;  // availability cap; fleet PLF ~69.5% FY25 (ICRA)
 const GAS_AVAIL     = 0.85;
-const HYDRO_CF      = 0.38; // daily energy budget = cap * CF * 24
+const HYDRO_CF      = 0.33;  // FY24: ~134 BU from ~47 GW
+const BAT_HOURS     = 4;     // 4-hour systems (CEA/NEP convention)
+const BAT_RT_EFF    = 0.85;  // round-trip efficiency
 
-// Per-source attributes
+// cost = generation cost ₹/kWh (auction tariffs / blended fleet)
+// capex = ₹ crore per MW (battery: ₹1.7 cr per MWh installed)
 const SOURCES = [
-  { key:'coal',    name:'Coal',          color:'var(--coal)',    co2:0.95, cost:4.5, max:260, step:5 },
-  { key:'gas',     name:'Gas',           color:'var(--gas)',     co2:0.45, cost:6.5, max:80,  step:2 },
-  { key:'nuclear', name:'Nuclear',       color:'var(--nuclear)', co2:0,    cost:6.0, max:120, step:2 },
-  { key:'hydro',   name:'Hydro',         color:'var(--hydro)',   co2:0,    cost:3.0, max:120, step:2 },
-  { key:'solar',   name:'Solar',         color:'var(--solar)',   co2:0,    cost:2.5, max:600, step:10 },
-  { key:'wind',    name:'Wind',          color:'var(--wind)',    co2:0,    cost:3.2, max:300, step:5 },
-  { key:'battery', name:'Battery (GWh)', color:'var(--battery)', co2:0,    cost:0,   max:600, step:10 },
+  { key:'coal',    name:'Coal',            color:'var(--coal)',    co2:0.97, cost:4.6, capex:8.34, max:350, step:5 },
+  { key:'gas',     name:'Gas',             color:'var(--gas)',     co2:0.45, cost:7.0, capex:5.0,  max:80,  step:2 },
+  { key:'nuclear', name:'Nuclear',         color:'var(--nuclear)', co2:0,    cost:4.5, capex:13.0, max:60,  step:1 },
+  { key:'hydro',   name:'Hydro + PSP',     color:'var(--hydro)',   co2:0,    cost:4.0, capex:10.5, max:150, step:2 },
+  { key:'solar',   name:'Solar',           color:'var(--solar)',   co2:0,    cost:2.6, capex:3.5,  max:900, step:10 },
+  { key:'wind',    name:'Wind',            color:'var(--wind)',    co2:0,    cost:3.7, capex:6.5,  max:400, step:5 },
+  { key:'battery', name:'Storage (GWh)',   color:'var(--battery)', co2:0,    cost:5.0, capex:1.7,  max:2000,step:10 },
 ];
+const TXN_CAPEX = 1.5; // ₹ cr per MW of NEW solar+wind (NEP transmission plan, scaled)
 
+// Coal imports: ~20% of coal energy from imported coal at ~$80/MWh fuel cost
+// → reproduces the ~$21 bn/yr thermal coal import bill (FY24: 206 Mt, $21 bn).
+const COAL_IMPORT_SHARE = 0.20, COAL_IMPORT_USD_MWH = 80;
+const GAS_IMPORT_SHARE  = 0.50, GAS_IMPORT_USD_MWH  = 90;
+
+// Presets — fleet GW (battery in GWh) + peak demand GW. Sources in table.
+const TODAY = { demand:256, coal:226, gas:20, nuclear:9,  hydro:52,  solar:135, wind:53,  battery:35 };
 const PRESETS = {
-  "India today (2024)":      { coal:210, gas:25, nuclear:8,  hydro:47, solar:73,  wind:45,  battery:10  },
-  "2030 NDC pathway":        { coal:210, gas:25, nuclear:20, hydro:62, solar:300, wind:140, battery:120 },
-  "Coal phase-down":         { coal:90,  gas:40, nuclear:30, hydro:70, solar:420, wind:200, battery:300 },
-  "Naive 'just add solar'":  { coal:60,  gas:25, nuclear:8,  hydro:47, solar:450, wind:45,  battery:10  },
+  "India today (2026)":      { ...TODAY },
+  "CEA plan 2031-32":        { demand:366, coal:260, gas:25, nuclear:20, hydro:62,  solar:365, wind:122, battery:411 },
+  "CEA vision 2035-36":      { demand:459, coal:315, gas:20, nuclear:22, hydro:77,  solar:509, wind:155, battery:870 },
+  "Just add solar (naive)":  { demand:366, coal:100, gas:20, nuclear:9,  hydro:52,  solar:700, wind:53,  battery:35 },
+  "Coal phase-out 2036":     { demand:459, coal:40,  gas:40, nuclear:50, hydro:110, solar:820, wind:300, battery:1700 },
 };
 
-let state = { ...PRESETS["India today (2024)"] };
+let state = { ...PRESETS["India today (2026)"] };
 
-// Resolve CSS var colors to hex for canvas
-const CSS = getComputedStyle(document.documentElement);
-function col(c){ return c.startsWith('var(') ? CSS.getPropertyValue(c.slice(4,-1)).trim() : c; }
+const CSS = (typeof getComputedStyle==='function') ? getComputedStyle(document.documentElement) : null;
+function col(c){ return (CSS && c.startsWith('var(')) ? CSS.getPropertyValue(c.slice(4,-1)).trim() : c; }
 
 function simulate(s) {
-  const demand = demandShape.map(f => f*PEAK);
+  const demand = demandShape.map(f => f*s.demand);
   const solar  = solarShape.map(f => f*s.solar);
   const wind   = windShape.map(f => f*s.wind);
-  const nuclear = NUCLEAR_AVAIL * s.nuclear; // flat, must-run firm baseload
+  const nuclear = NUCLEAR_AVAIL * s.nuclear;
   const coalMax = COAL_AVAIL * s.coal;
   const gasMax  = GAS_AVAIL  * s.gas;
-  const hydroMaxH = s.hydro;                 // peak power per hour
-  let   hydroBudget = s.hydro * HYDRO_CF * HOURS; // energy for the day (GWh)
-  const batPower = s.battery / 4;            // 4-hour battery → power rating
-  let   soc = s.battery * 0.5;               // start half full
+  const hydroMaxH = s.hydro;
+  let   hydroBudget = s.hydro * HYDRO_CF * HOURS;
+  const batPower = s.battery / BAT_HOURS;
+  let   soc = s.battery * 0.7; // charged ahead of the evening peak (off-peak/solar)
 
-  // per-hour generation by source
   const gen = { coal:[], gas:[], nuclear:[], hydro:[], solar:[], wind:[], battery:[] };
   const shortfall = [], curtail = [];
 
-  // Pass 1: residual after must-take VRE + firm nuclear
   const residual = demand.map((d,h) => d - Math.min(d, solar[h]+wind[h]) - nuclear);
 
-  // Hydro: allocate its daily energy budget to the highest-residual hours first
+  // Hydro: energy-limited — allocate budget to highest-residual hours first
   const hydro = new Array(HOURS).fill(0);
   const order = [...Array(HOURS).keys()].sort((a,b)=>residual[b]-residual[a]);
   for (const h of order) {
@@ -233,7 +350,6 @@ function simulate(s) {
     hydro[h] = want; hydroBudget -= want;
   }
 
-  // Hour-by-hour dispatch
   for (let h=0; h<HOURS; h++) {
     const vre = solar[h] + wind[h];
     const usedVre = Math.min(demand[h], vre);
@@ -243,17 +359,20 @@ function simulate(s) {
     gen.hydro[h] = hydro[h];
 
     let need = demand[h] - usedVre - gen.nuclear[h] - hydro[h];
-    let surplus = vre - usedVre; // VRE we couldn't use directly
+    let surplus = vre - usedVre;
 
-    // Charge battery from surplus
     let charge = 0;
     if (surplus > 0 && soc < s.battery) {
-      charge = Math.min(surplus, batPower, s.battery - soc);
-      soc += charge; surplus -= charge;
+      charge = Math.min(surplus, batPower, (s.battery - soc)/BAT_RT_EFF);
+      soc += charge * BAT_RT_EFF; surplus -= charge;
     }
     curtail[h] = Math.max(0, surplus);
 
-    // Discharge battery to meet remaining need
+    // Thermal first; storage is held back for when firm capacity is maxed out
+    // (peak-shaving role, as in Indian storage tenders)
+    gen.coal[h] = Math.min(coalMax, Math.max(0, need)); need -= gen.coal[h];
+    gen.gas[h]  = Math.min(gasMax,  Math.max(0, need)); need -= gen.gas[h];
+
     let dis = 0;
     if (need > 0 && soc > 0) {
       dis = Math.min(need, batPower, soc);
@@ -261,14 +380,9 @@ function simulate(s) {
     }
     gen.battery[h] = dis;
 
-    // Then coal, then gas
-    gen.coal[h] = Math.min(coalMax, Math.max(0, need)); need -= gen.coal[h];
-    gen.gas[h]  = Math.min(gasMax,  Math.max(0, need)); need -= gen.gas[h];
-
     shortfall[h] = Math.max(0, need);
   }
 
-  // Aggregate (GWh/day = sum of GW over hours)
   const energy = {};
   let total = 0;
   for (const k in gen) { energy[k] = gen[k].reduce((a,b)=>a+b,0); total += energy[k]; }
@@ -276,24 +390,47 @@ function simulate(s) {
   const shortEnergy  = shortfall.reduce((a,b)=>a+b,0);
   const shortHours   = shortfall.filter(x=>x>0.5).length;
 
-  const co2 = (energy.coal*0.95 + energy.gas*0.45); // kt/day (GWh·t/MWh); →Mt/yr below
+  const co2 = (energy.coal*0.97 + energy.gas*0.45);     // ktCO2/day (GWh × t/MWh)
   let costNum=0;
   SOURCES.forEach(src => { if(energy[src.key]) costNum += energy[src.key]*src.cost; });
   const avgCost = costNum / Math.max(1,total);
 
   const coalShare = total>0 ? energy.coal/total*100 : 0;
   const cleanShare = total>0 ? (energy.nuclear+energy.hydro+energy.solar+energy.wind+energy.battery)/total*100 : 0;
-  // Fuel-import exposure: ~20% of coal + ~50% of gas burned is imported
-  const importGWh = energy.coal*0.20 + energy.gas*0.50;
-  const importShare = demandEnergy>0 ? importGWh/demandEnergy*100 : 0;
+
+  // Annual fuel-import bill, $bn/yr
+  const importBn = (energy.coal*365/1000 * COAL_IMPORT_SHARE * COAL_IMPORT_USD_MWH
+                  + energy.gas *365/1000 * GAS_IMPORT_SHARE  * GAS_IMPORT_USD_MWH) / 1000;
+
+  const annualBU = total*365/1000; // TWh ≈ BU per year
 
   return { demand, gen, shortfall, curtail, energy, total, demandEnergy,
-           shortEnergy, shortHours, co2, avgCost, coalShare, cleanShare, importShare };
+           shortEnergy, shortHours, co2, avgCost, coalShare, cleanShare, importBn, annualBU };
+}
+
+// Overnight capital cost of capacity added beyond today's fleet (₹ crore).
+function transitionCost(s) {
+  const items = [];
+  let totalCr = 0;
+  SOURCES.forEach(src => {
+    const delta = Math.max(0, s[src.key] - TODAY[src.key]); // GW (battery: GWh)
+    // capex ₹cr/MW × 1000 MW/GW (battery: ₹cr/MWh × 1000 MWh/GWh)
+    const cr = delta * 1000 * src.capex;
+    if (cr > 0) items.push({ key:src.key, name:src.name, color:src.color, delta, cr });
+    totalCr += cr;
+  });
+  const txnGW = Math.max(0, s.solar - TODAY.solar) + Math.max(0, s.wind - TODAY.wind);
+  const txnCr = txnGW * 1000 * TXN_CAPEX;
+  if (txnCr > 0) items.push({ key:'txn', name:'Transmission', color:'var(--txn)', delta:txnGW, cr:txnCr });
+  totalCr += txnCr;
+  return { items, totalCr };
 }
 
 //==================================================================
 //  RENDER — controls
 //==================================================================
+function fmt(n,d=0){ return n.toLocaleString('en-IN',{maximumFractionDigits:d,minimumFractionDigits:d}); }
+
 const slidersEl = document.getElementById('sliders');
 SOURCES.forEach(src => {
   const wrap = document.createElement('div');
@@ -311,6 +448,13 @@ SOURCES.forEach(src => {
     render();
   });
 });
+const demandSl = document.getElementById('sl-demand');
+demandSl.value = state.demand;
+demandSl.addEventListener('input', e => {
+  state.demand = +e.target.value;
+  document.querySelectorAll('.preset').forEach(p=>p.classList.remove('active'));
+  render();
+});
 
 const presetsEl = document.getElementById('presets');
 Object.keys(PRESETS).forEach((name,i) => {
@@ -322,6 +466,7 @@ Object.keys(PRESETS).forEach((name,i) => {
     document.querySelectorAll('.preset').forEach(p=>p.classList.remove('active'));
     b.classList.add('active');
     SOURCES.forEach(s => document.getElementById('sl-'+s.key).value = state[s.key]);
+    demandSl.value = state.demand;
     render();
   };
   presetsEl.appendChild(b);
@@ -330,20 +475,18 @@ Object.keys(PRESETS).forEach((name,i) => {
 //==================================================================
 //  RENDER — KPIs + verdict
 //==================================================================
-function fmt(n,d=0){ return n.toLocaleString('en-IN',{maximumFractionDigits:d,minimumFractionDigits:d}); }
-
 function renderKPIs(r) {
-  const co2Yr = r.co2 * 365 / 1000; // Mt/yr
+  const co2Yr = r.co2 * 365 / 1000; // MtCO2/yr
   const reliable = r.shortHours === 0;
   const kpis = [
-    { label:'Coal share of power', value:fmt(r.coalShare)+'%', sub:fmt(r.cleanShare)+'% clean & firm-backed',
+    { label:'Coal share of power', value:fmt(r.coalShare)+'%', sub:fmt(r.cleanShare)+'% non-fossil',
       cls: r.coalShare>60?'warn':(r.coalShare<25?'good':'') },
-    { label:'Unmet demand', value: reliable ? 'Reliable' : fmt(r.shortHours)+' hrs',
-      sub: reliable ? 'lights stay on all day' : fmt(r.shortEnergy)+' GWh of blackouts',
+    { label:'Unmet demand', value: reliable ? 'Reliable' : fmt(r.shortHours)+' hrs/day',
+      sub: reliable ? 'lights stay on all day' : fmt(r.shortEnergy)+' GWh/day unserved',
       cls: reliable?'good':'warn' },
-    { label:'CO₂ emissions', value:fmt(co2Yr)+' Mt', sub:'per year from power',
-      cls: co2Yr<400?'good':(co2Yr>900?'warn':'') },
-    { label:'Avg cost', value:'₹'+fmt(r.avgCost,1), sub:'per kWh generated' },
+    { label:'CO₂ from power', value:fmt(co2Yr)+' Mt', sub:'per year (today ≈ 1,200 Mt)',
+      cls: co2Yr<400?'good':(co2Yr>1000?'warn':'') },
+    { label:'Avg generation cost', value:'₹'+fmt(r.avgCost,1), sub:'per kWh · '+fmt(r.annualBU)+' BU/yr' },
   ];
   document.getElementById('kpis').innerHTML = kpis.map(k =>
     `<div class="kpi"><div class="label">${k.label}</div>
@@ -363,11 +506,11 @@ function renderVerdict(r) {
   } else if (r.coalShare > 55) {
     dot = col('var(--coal)');
     title = `The lights stay on — but coal is doing the heavy lifting`;
-    body = `This is roughly where India sits today: a reliable grid underwritten by coal, at the cost of ${fmt(r.co2*365/1000)} Mt of CO₂ a year. Energy security is real, but so is the carbon and the import bill.`;
+    body = `This is roughly where India sits today: a reliable grid underwritten by coal, at the cost of ${fmt(r.co2*365/1000)} Mt of CO₂ a year and a multi-billion-dollar fuel import bill. Energy security is real; so is the carbon.`;
   } else if (r.coalShare < 25 && r.cleanShare > 70) {
     dot = col('var(--wind)');
     title = `A clean grid that actually stays up`;
-    body = `Coal is down to ${fmt(r.coalShare)}% and the lights still stay on through the evening peak — because clean generation is backed by firm capacity and storage. This is the hard, expensive, achievable version of the transition: note the cost and storage it took to get here.`;
+    body = `Coal is down to ${fmt(r.coalShare)}% and the lights still stay on through the evening peak — because clean generation is backed by firm capacity and storage. Now look at the capital bill below: that is the price of doing it for real.`;
   } else {
     dot = col('var(--solar)');
     title = `A workable transition mix`;
@@ -378,12 +521,43 @@ function renderVerdict(r) {
 }
 
 //==================================================================
-//  RENDER — dispatch chart (stacked area vs demand line)
+//  RENDER — cost of transition panel
 //==================================================================
-const STACK = ['nuclear','hydro','solar','wind','battery','coal','gas']; // bottom→top
+function renderCapex(t, r) {
+  const lakhCr = t.totalCr / LAKH_CRORE;
+  const usdBn  = t.totalCr * 1e7 / USD / 1e9; // ₹cr → ₹ → $ → $bn
+  document.getElementById('capex-big').textContent =
+    lakhCr < 0.005 ? '₹0' : '₹' + fmt(lakhCr, lakhCr<10?1:0) + ' lakh crore';
+  document.getElementById('capex-usd').textContent =
+    lakhCr < 0.005 ? '— this is today’s fleet' : '≈ $' + fmt(usdBn) + ' billion';
+
+  const maxCr = Math.max(1, ...t.items.map(i=>i.cr));
+  document.getElementById('capex-bars').innerHTML = t.items
+    .sort((a,b)=>b.cr-a.cr)
+    .map(i => `<div class="cb-row">
+      <span class="cb-name"><span class="swatch" style="background:${i.color}"></span>${i.name.replace(' (GWh)','')}</span>
+      <span class="cb-track"><span class="cb-fill" style="background:${i.color};width:${Math.max(1,i.cr/maxCr*100)}%"></span></span>
+      <span class="cb-val">+${fmt(i.delta)} ${i.key==='battery'?'GWh':'GW'} · ₹${fmt(i.cr/LAKH_CRORE,1)} L cr</span>
+    </div>`).join('') ||
+    '<p style="font-size:13px;color:var(--muted)">No capacity added beyond today’s fleet.</p>';
+
+  const budgetPct = lakhCr / 50.7 * 100; // FY26 union budget ≈ ₹50.7 lakh crore
+  const ctx = [];
+  if (lakhCr >= 0.05) {
+    ctx.push(`For scale: ≈ <b>${fmt(budgetPct)}%</b> of one full year's union budget (~₹50.7 lakh crore, FY26), spread over the build-out years.`);
+    ctx.push(`Benchmark: CEA's own 2022-32 plan costs <b>₹33.6 lakh crore</b> for generation (₹14.54 + ₹19.06 L cr) plus <b>₹9.15 L cr</b> for transmission. IEA puts India's required energy investment at ~<b>$160 bn/yr</b> to 2030; CEEW puts full net-zero-2070 at <b>$10.1 trillion</b> cumulative.`);
+  }
+  ctx.push(`Annual fossil-fuel import bill in this scenario: <b>$${fmt(r.importBn)} bn/yr</b> (today's thermal-coal imports run ~$21 bn/yr) — the recurring saving that offsets the capital cost.`);
+  document.getElementById('capex-ctx').innerHTML = ctx.map(c=>`<li>${c}</li>`).join('');
+}
+
+//==================================================================
+//  RENDER — dispatch chart
+//==================================================================
+const STACK = ['nuclear','hydro','solar','wind','battery','coal','gas'];
 function setupCanvas(cv, cssH){
   const dpr = window.devicePixelRatio || 1;
-  const cssW = cv.parentElement.clientWidth - 0; // already inside padding
+  const cssW = cv.parentElement.clientWidth - 36;
   cv.width = cssW * dpr; cv.height = cssH * dpr;
   cv.style.height = cssH + 'px';
   const ctx = cv.getContext('2d');
@@ -395,7 +569,7 @@ function renderDispatch(r) {
   const cv = document.getElementById('dispatch');
   const { ctx, W, H } = setupCanvas(cv, 430);
   ctx.clearRect(0,0,W,H);
-  const padL=44, padR=14, padT=14, padB=42;
+  const padL=46, padR=14, padT=14, padB=42;
   const plotW = W-padL-padR, plotH = H-padT-padB;
 
   let yMax = 0;
@@ -403,14 +577,14 @@ function renderDispatch(r) {
     let sum=0; STACK.forEach(k=>sum+=r.gen[k][h]); sum+=r.shortfall[h];
     yMax = Math.max(yMax, sum, r.demand[h]);
   }
-  yMax = Math.ceil(yMax/50)*50;
+  const yStep = yMax > 300 ? 100 : 50;
+  yMax = Math.ceil(yMax/yStep)*yStep;
 
   const x = h => padL + (h/(HOURS-1))*plotW;
   const y = v => padT + plotH - (v/yMax)*plotH;
 
-  // grid + y labels
   ctx.strokeStyle='#eef1f6'; ctx.fillStyle='#94a3b8'; ctx.font='11px sans-serif'; ctx.textAlign='right';
-  for (let v=0; v<=yMax; v+=50){
+  for (let v=0; v<=yMax; v+=yStep){
     ctx.beginPath(); ctx.moveTo(padL,y(v)); ctx.lineTo(W-padR,y(v)); ctx.stroke();
     ctx.fillText(v, padL-8, y(v)+3);
   }
@@ -418,20 +592,17 @@ function renderDispatch(r) {
   ctx.textAlign='center'; ctx.fillStyle='#5b6b82'; ctx.font='11px sans-serif';
   ctx.fillText('GW', 0, 0); ctx.restore();
 
-  // x labels
   ctx.textAlign='center'; ctx.fillStyle='#94a3b8'; ctx.font='11px sans-serif';
   for (let h=0; h<HOURS; h+=3){
     const lbl = (h%12||12)+(h<12?'a':'p');
     ctx.fillText(lbl, x(h), H-padB+16);
   }
-  // sunset marker (~18:30)
   const sx = x(18.5);
   ctx.strokeStyle='rgba(245,166,35,0.55)'; ctx.setLineDash([4,4]);
   ctx.beginPath(); ctx.moveTo(sx,padT); ctx.lineTo(sx,padT+plotH); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#c98a1a'; ctx.textAlign='left'; ctx.font='10px sans-serif';
   ctx.fillText('☾ sunset', sx+4, padT+12);
 
-  // stacked areas
   let base = new Array(HOURS).fill(0);
   const drawBand = (vals, fill) => {
     ctx.beginPath();
@@ -443,7 +614,6 @@ function renderDispatch(r) {
   };
   STACK.forEach(k => drawBand(r.gen[k], col(SOURCES.find(s=>s.key===k).color)));
 
-  // shortfall band (hatched red) on top
   ctx.save();
   ctx.beginPath();
   ctx.moveTo(x(0), y(base[0]));
@@ -458,11 +628,9 @@ function renderDispatch(r) {
   }
   ctx.restore();
 
-  // demand line
   ctx.beginPath();
   for (let h=0;h<HOURS;h++){ const px=x(h),py=y(r.demand[h]); h?ctx.lineTo(px,py):ctx.moveTo(px,py); }
   ctx.strokeStyle='#0f172a'; ctx.lineWidth=2.4; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
-  // demand label
   ctx.fillStyle='#0f172a'; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
   ctx.fillText('Demand', x(0)+4, y(r.demand[0])-6);
 }
@@ -493,13 +661,12 @@ function renderMix(r) {
     ctx.fillStyle='rgba(239,68,68,0.25)'; ctx.fillRect(xpos,top,w,barH);
     ctx.strokeStyle=col('var(--short)'); ctx.strokeRect(xpos+0.5,top+0.5,w-1,barH-1);
   }
-  // caption
   ctx.fillStyle='#5b6b82'; ctx.textAlign='left'; ctx.font='11px sans-serif';
   ctx.fillText('Share of the day’s generation by source (hatched = unserved demand)', 0, top+barH+18);
 }
 
 //==================================================================
-//  LEGEND
+//  LEGEND + MAIN
 //==================================================================
 document.getElementById('legend').innerHTML =
   STACK.map(k => { const s=SOURCES.find(x=>x.key===k);
@@ -507,22 +674,21 @@ document.getElementById('legend').innerHTML =
   + `<span><span class="swatch" style="background:rgba(239,68,68,0.35);border:1px solid #ef4444"></span>Shortfall</span>`
   + `<span style="border-left:2px dashed #0f172a;padding-left:8px">Demand</span>`;
 
-//==================================================================
-//  MAIN
-//==================================================================
 function render() {
   SOURCES.forEach(s => {
     const unit = s.key==='battery' ? ' <small>GWh</small>' : ' <small>GW</small>';
     document.getElementById('val-'+s.key).innerHTML = fmt(state[s.key]) + unit;
   });
+  document.getElementById('val-demand').innerHTML = fmt(state.demand) + ' <small>GW</small>';
   const r = simulate(state);
   renderKPIs(r);
   renderVerdict(r);
   renderDispatch(r);
+  renderCapex(transitionCost(state), r);
   renderMix(r);
 }
 
-window.addEventListener('resize', () => { renderDispatch(simulate(state)); renderMix(simulate(state)); });
+window.addEventListener('resize', () => { const r=simulate(state); renderDispatch(r); renderMix(r); });
 render();
 </script>
 </body>
