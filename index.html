@@ -194,15 +194,15 @@
   <div class="panel">
   <table class="atable">
     <tr><th>Quantity</th><th>Value used</th><th>Source</th></tr>
-    <tr><td>Installed fleet, "India today" preset</td><td>Coal+lignite ~226 GW, gas 20 GW, nuclear ~9 GW, hydro (incl. pumped storage) ~52 GW, solar ~135 GW, wind ~53 GW, storage ~35 GWh; total fleet ~514 GW (Dec 2025)</td>
+    <tr><td>Installed fleet, "India today" preset</td><td>Coal+lignite ~226 GW, gas 20 GW, nuclear ~9 GW, hydro (incl. pumped storage) ~52 GW, solar ~135 GW, wind ~53 GW, storage ~35 GWh; modelled dispatchable/generation fleet ~495 GW within an all-source installed grid of ~514 GW (Dec 2025)</td>
       <td><a href="https://cea.nic.in/installed-capacity-report/?lang=en">CEA installed capacity reports</a>; <a href="https://powerpeakdigest.com/indias-installed-power-capacity-crosses-513-gw-by-end-2025/">Power Peak Digest (end-2025)</a>; <a href="https://jmkresearch.com/india-adds-record-37-9-gw-of-solar-and-6-3-gw-of-wind-capacity-in-cy2025/">JMK Research (CY2025 additions)</a></td></tr>
     <tr><td>Peak demand today</td><td>256 GW (all-time high, met without shortage, April 2026); ~270 GW expected summer 2026</td>
       <td><a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2256313">PIB, Ministry of Power</a></td></tr>
     <tr><td>Demand projections</td><td>366.4 GW peak / 2,473.8 BU by 2031-32; 459 GW peak by 2035-36</td>
       <td><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1928750">CEA National Electricity Plan 2022-32</a>; <a href="https://www.mercomindia.com/cea-projects-indias-peak-power-demand-to-reach-459-gw-by-2035-36">CEA 20th EPS mid-term review</a></td></tr>
-    <tr><td>"CEA plan 2031-32" preset</td><td>Coal 260 GW, solar 364.6 GW, wind 121.9 GW, nuclear 19.7 GW, hydro 62 GW, storage 411 GWh (236 GWh BESS + 175 GWh pumped hydro); total 900 GW</td>
+    <tr><td>"CEA plan 2031-32" preset</td><td>Coal 260 GW, gas ~25 GW, solar 364.6 GW, wind 121.9 GW, nuclear 19.7 GW, hydro 62 GW, storage 411.4 GWh (236.22 GWh BESS + 175.18 GWh pumped hydro); modelled generation fleet ~854 GW, with CEA's all-source 2031-32 capacity total near 900 GW</td>
       <td><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1928750">CEA NEP (notified May 2023)</a></td></tr>
-    <tr><td>"CEA vision 2035-36" preset</td><td>Coal 315 GW, solar 509 GW, wind 155 GW, nuclear 22 GW, hydro 77 GW, gas 20 GW, energy storage 174 GW (~870 GWh assumed at ~5h); total 1,121 GW</td>
+    <tr><td>"CEA vision 2035-36" preset</td><td>Coal 315 GW, solar 509 GW, wind 155 GW, nuclear 22 GW, hydro 77 GW, gas 20 GW, energy storage 174 GW (simulated here as ~870 GWh at ~5h); model preset generation fleet ~1,098 GW, while the cited CEA vision reports an all-source total around 1,121 GW</td>
       <td><a href="https://www.energetica-india.net/news/india-targets-1121-gw-power-capacity-by-2036-with-509-gw-solar-155-gw-wind-174-gw-ess-cea">CEA 20th EPS mid-term review</a></td></tr>
     <tr><td>Coal share of generation</td><td>~69-74% (model reproduces ~69-70% for today's fleet)</td>
       <td><a href="https://energyandcleanair.org/publication/india-power-sector-review-2025/">CREA India power sector review 2025</a></td></tr>
@@ -247,8 +247,8 @@
 
 <footer>
   Illustrative hourly dispatch model for policy discussion — not a planning study. It reproduces today's grid well
-  (~70% coal share, ~1.2 Gt CO₂/yr, avg cost ~₹4.5/kWh, 256 GW peak met) and its bottom-up cost of the CEA 2031-32
-  fleet (~₹30 lakh crore) independently lands near CEA's own ₹33.6 lakh crore figure. Batteries 4-hour, 85% round-trip.
+  (~71% coal share, ~1.23 Gt CO₂/yr, avg cost ~₹4.3/kWh, ~1,790 BU/yr, 256 GW peak met) and its bottom-up cost of the CEA 2031-32
+  fleet (~₹29 lakh crore) independently lands near CEA's own ₹33.6 lakh crore figure. Batteries 4-hour, 85% round-trip.
   Self-contained file: no network, no tracking — view source to audit every assumption.
 </footer>
 
