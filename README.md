@@ -29,14 +29,23 @@ and *Coal phase-out 2036* (works — at ~₹95 lakh crore / ~$1.1 trillion).
 The model is calibrated to reproduce reality, not just gesture at it. The
 "India today" preset yields ~71% coal share, ~1,230 Mt CO₂/yr, ~₹4.3/kWh average
 cost, ~1,790 BU/yr and a reliable 256 GW peak — all matching published 2025-26
-figures. Its bottom-up cost of the CEA 2031-32 fleet (₹29 lakh crore) lands
+figures. Its bottom-up cost of the CEA 2031-32 fleet (~₹29 lakh crore) lands
 independently near CEA's own ₹33.6 lakh crore estimate, and its coal share of
 generation for that fleet (~55%) matches the NEP's ~56% thermal projection.
 
-Every constant is cited in the in-page **"Assumptions & sources"** table
+Every externally sourced constant is cited in the in-page **"Assumptions & sources"** table
 (CEA installed-capacity reports and the National Electricity Plan, PIB releases,
 SECI auction results, Ministry of Power data, ICRA/CRISIL/Mercom/Ember analyses,
 IEA and CEEW investment estimates).
+
+## Numeric audit notes
+
+The in-page totals distinguish **power capacity** (GW) from **storage energy**
+(GWh). The modelled 2026 generation fleet sums to about 495 GW, while the cited
+all-source installed grid total is about 514 GW because small categories outside
+the simulator are not individually modelled. Similarly, the 2031-32 and 2035-36
+presets keep CEA storage energy in GWh separate from generation capacity so the
+capital-cost math does not accidentally add GWh to GW.
 
 ## How to run
 
