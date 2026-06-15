@@ -123,11 +123,9 @@
 <body>
 <header>
   <h1>India's Coal Dilemma — An Energy Security Simulator</h1>
-  <p>India generates roughly 70% of its electricity from coal, and its peak demand — an all-time-high
-     <b>256&nbsp;GW</b> met in April 2026 — is officially projected to reach <b>366&nbsp;GW by 2032</b> and
-     <b>459&nbsp;GW by 2036</b>. This tool lets you rebuild the power fleet against that growing demand and see,
-     hour by hour, whether the lights stay on after sunset — and what the build-out costs in real rupees.
-     Every number is sourced (see <i>Assumptions &amp; sources</i> below).</p>
+  <p>Coal keeps India's lights on. Demand is racing upward and the climate clock is ticking — but cut coal too fast
+     and the grid fails when the country needs it most, just after sunset. Rebuild the fleet and see for yourself
+     what switching away from coal really takes, and what it costs.</p>
 </header>
 
 <div class="wrap">
@@ -174,9 +172,7 @@
           <span class="capex-big" id="capex-big"></span>
           <span class="capex-usd" id="capex-usd"></span>
         </div>
-        <p class="capex-note">Overnight capital cost of capacity <b>added beyond the early-2026 fleet</b>, at current
-           Indian benchmark costs. Retired capacity earns no credit (stranded-asset and decommissioning costs are ignored —
-           the true bill is higher).</p>
+        <p class="capex-note">What it costs to build everything beyond today's fleet — the up-front bill for the transition.</p>
         <div class="capex-bars" id="capex-bars"></div>
         <ul class="capex-ctx" id="capex-ctx"></ul>
       </div>
@@ -240,16 +236,14 @@
       <td><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1928750">CEA NEP 2022-32 (PIB)</a></td></tr>
     <tr><td>Macro context</td><td>IEA: ~$160 bn/yr average energy investment needed to 2030; CEEW: $10.1 trillion cumulative for net-zero by 2070</td>
       <td><a href="https://www.iea.org/commentaries/indias-clean-energy-transition-is-rapidly-underway-benefiting-the-entire-world">IEA</a>; <a href="https://www.ceew.in/press-releases/india-must-aim-for-600-gw-clean-energy-to-meet-rising-electricty-needs-and-power-demand-by-2030">CEEW</a></td></tr>
-    <tr><td>Exchange rate</td><td>₹87 per USD; ₹1 lakh crore = ₹10¹² ≈ $11.5 bn</td><td>Mid-2026 indicative</td></tr>
+    <tr><td>Exchange rate</td><td id="fx-cell">₹87 per USD (loading live rate…)</td><td><a href="https://open.er-api.com/v6/latest/USD">open.er-api.com (live USD base)</a></td></tr>
   </table>
   </div>
 </details>
 
 <footer>
-  Illustrative hourly dispatch model for policy discussion — not a planning study. It reproduces today's grid well
-  (~71% coal share, ~1.23 Gt CO₂/yr, avg cost ~₹4.3/kWh, ~1,790 BU/yr, 256 GW peak met) and its bottom-up cost of the CEA 2031-32
-  fleet (~₹29 lakh crore) independently lands near CEA's own ₹33.6 lakh crore figure. Batteries 4-hour, 85% round-trip.
-  Self-contained file: no network, no tracking — view source to audit every assumption.
+  Illustrative model for policy discussion. It shows the shape of the trade-off.
+  Every figure is sourced in the table above; <span id="fx-foot">exchange rate updates live</span>.
 </footer>
 
 <script>
@@ -257,7 +251,7 @@
 //  MODEL — all constants sourced; see "Assumptions & sources" table
 //==================================================================
 const HOURS = 24;
-const USD = 87;            // ₹ per USD (mid-2026)
+let   USD = 87;            // ₹ per USD — fallback; refreshed live on load (see fetchFx)
 const LAKH_CRORE = 1e5;    // ₹ crore in one lakh crore
 
 // Hourly demand as fraction of peak. Load factor ~0.80 — calibrated so the
@@ -499,22 +493,22 @@ function renderVerdict(r) {
   if (r.shortHours > 0) {
     dot = col('var(--short)');
     const peakOut = r.shortfall.slice(17,22).some(x=>x>0.5);
-    title = `Energy insecurity: ${r.shortHours} hours of shortfall a day`;
+    title = `The lights go out`;
     body = peakOut
-      ? `The gap bites hardest in the <b>evening peak</b> — solar has gone to bed but demand is at its highest. Without firm capacity (coal, gas, nuclear, hydro) or enough storage to carry through sunset, this fleet sheds load when the country needs power most.`
-      : `Demand outruns available supply for part of the day. The fleet needs more firm capacity or storage to be dependable.`;
+      ? `Cut coal this fast and the grid fails in the evening — the sun is down but demand is at its highest. This is the heart of the problem: clean power needs firm backup and storage to be dependable after dark.`
+      : `Demand outruns supply for part of the day. This fleet needs more firm capacity or storage to keep the lights on.`;
   } else if (r.coalShare > 55) {
     dot = col('var(--coal)');
-    title = `The lights stay on — but coal is doing the heavy lifting`;
-    body = `This is roughly where India sits today: a reliable grid underwritten by coal, at the cost of ${fmt(r.co2*365/1000)} Mt of CO₂ a year and a multi-billion-dollar fuel import bill. Energy security is real; so is the carbon.`;
+    title = `Reliable — but coal pays for it`;
+    body = `Roughly where India sits today: the grid holds, at the cost of heavy carbon and a large fuel-import bill. The security is real; so is the price.`;
   } else if (r.coalShare < 25 && r.cleanShare > 70) {
     dot = col('var(--wind)');
-    title = `A clean grid that actually stays up`;
-    body = `Coal is down to ${fmt(r.coalShare)}% and the lights still stay on through the evening peak — because clean generation is backed by firm capacity and storage. Now look at the capital bill below: that is the price of doing it for real.`;
+    title = `Clean and reliable — at a price`;
+    body = `Coal is largely gone and the lights still stay on through the evening, because clean power is backed by firm capacity and storage. The capital bill below is what doing it for real costs.`;
   } else {
     dot = col('var(--solar)');
-    title = `A workable transition mix`;
-    body = `Coal is falling and the grid still balances across the day. Keep pushing coal down and watch the evening peak — that's where firm capacity and storage earn their keep.`;
+    title = `A workable transition`;
+    body = `Coal is falling and the grid still balances. Keep pushing it down and watch the evening peak — that's where the difficulty lives.`;
   }
   document.getElementById('verdict').innerHTML =
     `<span class="dot" style="background:${dot}"></span><div><strong>${title}</strong>${body}</div>`;
@@ -544,10 +538,9 @@ function renderCapex(t, r) {
   const budgetPct = lakhCr / 50.7 * 100; // FY26 union budget ≈ ₹50.7 lakh crore
   const ctx = [];
   if (lakhCr >= 0.05) {
-    ctx.push(`For scale: ≈ <b>${fmt(budgetPct)}%</b> of one full year's union budget (~₹50.7 lakh crore, FY26), spread over the build-out years.`);
-    ctx.push(`Benchmark: CEA's own 2022-32 plan costs <b>₹33.6 lakh crore</b> for generation (₹14.54 + ₹19.06 L cr) plus <b>₹9.15 L cr</b> for transmission. IEA puts India's required energy investment at ~<b>$160 bn/yr</b> to 2030; CEEW puts full net-zero-2070 at <b>$10.1 trillion</b> cumulative.`);
+    ctx.push(`About <b>${fmt(budgetPct)}%</b> of a full year's union budget — the scale of the national commitment required.`);
   }
-  ctx.push(`Annual fossil-fuel import bill in this scenario: <b>$${fmt(r.importBn)} bn/yr</b> (today's thermal-coal imports run ~$21 bn/yr) — the recurring saving that offsets the capital cost.`);
+  ctx.push(`Fossil-fuel imports in this scenario: <b>$${fmt(r.importBn)} bn a year</b> — the recurring cost that building clean buys down.`);
   document.getElementById('capex-ctx').innerHTML = ctx.map(c=>`<li>${c}</li>`).join('');
 }
 
@@ -690,6 +683,36 @@ function render() {
 
 window.addEventListener('resize', () => { const r=simulate(state); renderDispatch(r); renderMix(r); });
 render();
+
+//==================================================================
+//  LIVE USD/INR — refresh the rate, fall back silently to ₹87 offline
+//==================================================================
+function setFxLabel(text) {
+  const cell = document.getElementById('fx-cell'); if (cell) cell.innerHTML = text;
+  const foot = document.getElementById('fx-foot'); if (foot) foot.textContent = text;
+}
+function applyFx(rate, day) {
+  USD = rate;
+  setFxLabel(`₹${fmt(USD,2)} per USD — live${day?` (${day})`:''}`);
+  render();
+}
+function fetchFx() {
+  // Primary source, then a backup, then silent offline fallback to ₹87.
+  fetch('https://open.er-api.com/v6/latest/USD')
+    .then(r => r.json())
+    .then(d => {
+      if (!(d && d.rates && d.rates.INR)) throw 0;
+      applyFx(d.rates.INR, (d.time_last_update_utc || '').slice(0,16));
+    })
+    .catch(() => fetch('https://api.frankfurter.app/latest?from=USD&to=INR')
+      .then(r => r.json())
+      .then(d => {
+        if (!(d && d.rates && d.rates.INR)) throw 0;
+        applyFx(d.rates.INR, d.date);
+      }))
+    .catch(() => setFxLabel(`₹${fmt(USD,2)} per USD — offline fallback`));
+}
+fetchFx();
 </script>
 </body>
 </html>
