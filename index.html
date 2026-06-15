@@ -116,6 +116,22 @@
   table.atable { border-collapse: collapse; width: 100%; font-size: 12.5px; }
   table.atable th, table.atable td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
   table.atable th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* math model */
+  .mathsec { margin-bottom: 24px; }
+  .mathsec h3 { font-size: 13px; margin: 18px 0 8px; color: var(--ink); }
+  .mathsec p.lead { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+  .formula {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px;
+    background: #f6f8fc; border: 1px solid var(--line); border-left: 3px solid #243b5e;
+    border-radius: 6px; padding: 9px 12px; margin: 6px 0; overflow-x: auto; line-height: 1.7;
+  }
+  .formula b { color: #243b5e; }
+  .formula .c { color: #b07a3c; font-weight: 700; }    /* a sourced constant */
+  .formula .note { color: var(--muted); font-family: inherit; }
+  .mathsec ol.steps { font-size: 13px; margin: 6px 0 0; padding-left: 20px; }
+  .mathsec ol.steps li { margin-bottom: 5px; }
+  .mathsec .src-ref { color: var(--muted); font-size: 12px; }
   footer { color: var(--muted); font-size: 11.5px; max-width: 1240px; margin: 0 auto; padding: 0 24px 40px; }
   a { color: #2563eb; }
 </style>
@@ -186,8 +202,65 @@
 </div>
 
 <details class="assump">
-  <summary>Assumptions &amp; sources — every number in this model, with citations</summary>
+  <summary>Assumptions, sources &amp; the math — every figure, where it comes from, and exactly how it's combined</summary>
   <div class="panel">
+
+  <div class="mathsec">
+    <p class="lead">The whole model is a one-day, hour-by-hour balance of supply against demand, run for 24 hours.
+      Every <span class="c">amber number</span> below is a sourced constant from the table further down; everything else
+      is your slider input or arithmetic. Nothing is hidden.</p>
+
+    <h3>1 · Demand each hour (GW)</h3>
+    <div class="formula">
+      <b>demand</b>[h] = <b>Peak</b> × shape[h]
+      <span class="note">— Peak = your demand slider (256 GW today → 459 by 2036)</span><br>
+      shape[h] = 24-hour curve, average ≈ <span class="c">0.80</span> of peak, topping out at 18:00<br>
+      annual energy (BU/yr) = Σ demand[h] × <span class="c">365</span> ÷ 1000
+    </div>
+
+    <h3>2 · How much each source can supply that hour (GW)</h3>
+    <div class="formula">
+      <b>solar</b>[h]   = <b>Solar_GW</b> × <span class="c">0.55</span> × max(0, sin(π·(h−6)/12))   <span class="note">6am–6pm, else 0  → fleet CUF ≈ 17.5%</span><br>
+      <b>wind</b>[h]    = <b>Wind_GW</b>  × profile[h]   <span class="note">evening-weighted curve → fleet CUF ≈ 22%</span><br>
+      <b>nuclear</b>    = <span class="c">0.80</span> × <b>Nuclear_GW</b>   <span class="note">flat, runs all day</span><br>
+      <b>coal</b> cap   = <span class="c">0.85</span> × <b>Coal_GW</b>      &nbsp;&nbsp;<b>gas</b> cap = <span class="c">0.85</span> × <b>Gas_GW</b><br>
+      <b>hydro</b>: daily energy = <b>Hydro_GW</b> × <span class="c">0.33</span> × 24, poured onto the highest-demand hours (≤ Hydro_GW/hr)<br>
+      <b>battery</b>: power = <b>Storage_GWh</b> ÷ <span class="c">4</span> &nbsp; round-trip efficiency <span class="c">0.85</span>, starts ~70% charged
+    </div>
+
+    <h3>3 · Dispatch — who fills demand each hour, and in what order</h3>
+    <ol class="steps">
+      <li>Take all available <b>solar + wind</b> first (free, zero-carbon).</li>
+      <li>Then <b>nuclear</b>, then <b>hydro</b> (firm, zero-carbon).</li>
+      <li>Any leftover solar/wind <b>charges the battery</b> (spare beyond that is curtailed/wasted).</li>
+      <li>Then <b>coal</b>, then <b>gas</b> ramp up to cover what's still missing.</li>
+      <li>Finally the <b>battery discharges</b> to shave the evening peak.</li>
+      <li>Anything <i>still</i> unmet = <b style="color:var(--short)">shortfall</b> — a blackout, the red hatched area.</li>
+    </ol>
+
+    <h3>4 · Turning the day into the headline numbers</h3>
+    <div class="formula">
+      energy<span class="note">_source</span> = Σ over 24h of that source's output   <span class="note">(GWh for the day)</span><br>
+      <b>Coal share %</b>   = energy_coal ÷ (all energy) × 100<br>
+      <b>CO₂ (Mt/yr)</b>    = (energy_coal × <span class="c">0.97</span> + energy_gas × <span class="c">0.45</span>) × 365 ÷ 1000<br>
+      <b>Avg cost ₹/kWh</b> = Σ(energy_source × <span class="c">tariff_source</span>) ÷ (all energy)<br>
+      <span class="note">tariffs ₹/kWh: solar <span class="c">2.6</span>, wind <span class="c">3.7</span>, coal <span class="c">4.6</span>, gas <span class="c">7.0</span>, nuclear <span class="c">4.5</span>, hydro <span class="c">4.0</span>, storage <span class="c">5.0</span></span><br>
+      <b>Fossil imports ($bn/yr)</b> = (coal_TWh × <span class="c">0.20</span> × $<span class="c">80</span> + gas_TWh × <span class="c">0.50</span> × $<span class="c">90</span>) ÷ 1000<br>
+      <span class="note">where x_TWh = energy_x × 365 ÷ 1000; calibrates to the ~$21 bn FY24 coal-import bill</span>
+    </div>
+
+    <h3>5 · Cost to build (capacity added beyond today's fleet)</h3>
+    <div class="formula">
+      per source: <b>cost</b> = max(0, fleet − today) [GW] × 1000 × <span class="c">capex</span> [₹cr/MW]<br>
+      <span class="note">capex ₹cr/MW: coal <span class="c">8.34</span>, solar <span class="c">3.5</span>, wind <span class="c">6.5</span>, nuclear <span class="c">13</span>, hydro <span class="c">10.5</span>, gas <span class="c">5</span> · battery <span class="c">1.7</span> ₹cr/MWh</span><br>
+      + transmission: (added solar + added wind) [GW] × 1000 × <span class="c">1.5</span> [₹cr/MW]<br>
+      <b>₹ lakh crore</b> = total ₹crore ÷ 100,000 &nbsp;&nbsp; <b>$bn</b> = total ₹crore × 10⁷ ÷ (live ₹/USD) ÷ 10⁹
+    </div>
+    <p class="src-ref">Worked check: the CEA 2031-32 preset adds ~₹29 lakh crore by this formula — independently close to CEA's own
+      ₹33.6 lakh crore plan figure. The "India today" preset reproduces ~71% coal, ~1,230 Mt CO₂/yr, ₹4.3/kWh and a 256 GW
+      peak met without shortfall. The sourced value behind every <span class="c">amber constant</span> is in the table below.</p>
+  </div>
+
   <table class="atable">
     <tr><th>Quantity</th><th>Value used</th><th>Source</th></tr>
     <tr><td>Installed fleet, "India today" preset</td><td>Coal+lignite ~226 GW, gas 20 GW, nuclear ~9 GW, hydro (incl. pumped storage) ~52 GW, solar ~135 GW, wind ~53 GW, storage ~35 GWh; modelled dispatchable/generation fleet ~495 GW within an all-source installed grid of ~514 GW (Dec 2025)</td>
