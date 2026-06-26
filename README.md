@@ -1,8 +1,7 @@
 # India's Coal Dilemma — An Energy Security Simulator
 
-A single-file, interactive demo for senior policy stakeholders to *feel* why India
-leans so heavily on coal — and what moving away from it actually costs, in sourced,
-verified numbers.
+A single-file, interactive tool for senior policy audiences. It shows why India
+relies on coal and what moving off it costs, using sourced numbers.
 
 ## What it does
 
@@ -10,11 +9,11 @@ Drag capacity sliders to rebuild India's power fleet (coal, gas, nuclear, hydro,
 solar, wind, storage) against a chosen peak demand, and watch a representative
 **24-hour day** of supply get stacked against demand:
 
-- **Cut coal, and the evening peak breaks first.** Solar collapses to zero at
-  sunset — exactly when India's demand peaks. Red "shortfall" bars are blackouts.
-- **Demand is growing.** A demand slider follows CEA projections: 256 GW met in
-  2026 → 366 GW by 2031-32 → 459 GW by 2035-36. India must build just to stand still.
-- **The cost of transition is spelled out.** A capital-cost panel prices every GW
+- **Cut coal and the evening peak fails first.** Solar output falls to zero at
+  sunset, when demand peaks. Red shortfall bars mark unmet demand.
+- **Demand is growing.** The demand slider follows CEA projections: 256 GW met in
+  2026, 366 GW by 2031-32, 459 GW by 2035-36. Capacity must grow just to keep pace.
+- **The cost of transition is shown.** A capital-cost panel prices every GW
   added beyond today's fleet at Indian benchmark costs (coal ₹8.34 cr/MW per CEA,
   solar ₹3.5 cr/MW, batteries ₹1.7 cr/MWh per Ministry of Power, plus a
   transmission adder), in ₹ lakh crore and USD, with context: % of the union
@@ -26,7 +25,7 @@ and *Coal phase-out 2036* (works — at ~₹95 lakh crore / ~$1.1 trillion).
 
 ## Validation
 
-The model is calibrated to reproduce reality, not just gesture at it. The
+The model is calibrated to published figures. The
 "India today" preset yields ~71% coal share, ~1,230 Mt CO₂/yr, ~₹4.3/kWh average
 cost, ~1,790 BU/yr and a reliable 256 GW peak — all matching published 2025-26
 figures. Its bottom-up cost of the CEA 2031-32 fleet (~₹29 lakh crore) lands

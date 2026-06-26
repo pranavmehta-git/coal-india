@@ -139,9 +139,9 @@
 <body>
 <header>
   <h1>India's Coal Dilemma — An Energy Security Simulator</h1>
-  <p>Coal keeps India's lights on. Demand is racing upward and the climate clock is ticking — but cut coal too fast
-     and the grid fails when the country needs it most, just after sunset. Rebuild the fleet and see for yourself
-     what switching away from coal really takes, and what it costs.</p>
+  <p>Coal supplies most of India's electricity. Demand is rising and emissions must fall. But cut coal too fast
+     and the grid falls short after sunset, when demand peaks and solar output is gone. Rebuild the fleet below
+     to see what moving off coal requires, and what it costs.</p>
 </header>
 
 <div class="wrap">
@@ -177,7 +177,7 @@
       <div class="verdict" id="verdict"></div>
 
       <div class="panel chart-card">
-        <h2>A day on the grid — supply stacked against demand</h2>
+        <h2>A day on the grid: supply against demand</h2>
         <canvas id="dispatch" height="430"></canvas>
         <div class="legend" id="legend"></div>
       </div>
@@ -188,7 +188,7 @@
           <span class="capex-big" id="capex-big"></span>
           <span class="capex-usd" id="capex-usd"></span>
         </div>
-        <p class="capex-note">What it costs to build everything beyond today's fleet — the up-front bill for the transition.</p>
+        <p class="capex-note">Up-front capital to build capacity beyond today's fleet.</p>
         <div class="capex-bars" id="capex-bars"></div>
         <ul class="capex-ctx" id="capex-ctx"></ul>
       </div>
@@ -202,13 +202,13 @@
 </div>
 
 <details class="assump">
-  <summary>Assumptions, sources &amp; the math — every figure, where it comes from, and exactly how it's combined</summary>
+  <summary>Assumptions, sources &amp; the math — every figure, its source, and how it is used</summary>
   <div class="panel">
 
   <div class="mathsec">
-    <p class="lead">The whole model is a one-day, hour-by-hour balance of supply against demand, run for 24 hours.
-      Every <span class="c">amber number</span> below is a sourced constant from the table further down; everything else
-      is your slider input or arithmetic. Nothing is hidden.</p>
+    <p class="lead">The model balances supply against demand for each of the 24 hours in a representative day.
+      Each <span class="c">amber number</span> is a sourced constant from the table below. Everything else
+      is your slider input or arithmetic.</p>
 
     <h3>1 · Demand each hour (GW)</h3>
     <div class="formula">
@@ -315,8 +315,8 @@
 </details>
 
 <footer>
-  Illustrative model for policy discussion. It shows the shape of the trade-off.
-  Every figure is sourced in the table above; <span id="fx-foot">exchange rate updates live</span>.
+  Illustrative model for policy discussion, not a planning study.
+  Every figure is sourced in the table above; <span id="fx-foot">the exchange rate updates live</span>.
 </footer>
 
 <script>
@@ -549,7 +549,7 @@ function renderKPIs(r) {
     { label:'Coal share of power', value:fmt(r.coalShare)+'%', sub:fmt(r.cleanShare)+'% non-fossil',
       cls: r.coalShare>60?'warn':(r.coalShare<25?'good':'') },
     { label:'Unmet demand', value: reliable ? 'Reliable' : fmt(r.shortHours)+' hrs/day',
-      sub: reliable ? 'lights stay on all day' : fmt(r.shortEnergy)+' GWh/day unserved',
+      sub: reliable ? 'no shortfall in the day' : fmt(r.shortEnergy)+' GWh/day unserved',
       cls: reliable?'good':'warn' },
     { label:'CO₂ from power', value:fmt(co2Yr)+' Mt', sub:'per year (today ≈ 1,200 Mt)',
       cls: co2Yr<400?'good':(co2Yr>1000?'warn':'') },
@@ -566,22 +566,22 @@ function renderVerdict(r) {
   if (r.shortHours > 0) {
     dot = col('var(--short)');
     const peakOut = r.shortfall.slice(17,22).some(x=>x>0.5);
-    title = `The lights go out`;
+    title = `Evening shortfall`;
     body = peakOut
-      ? `Cut coal this fast and the grid fails in the evening — the sun is down but demand is at its highest. This is the heart of the problem: clean power needs firm backup and storage to be dependable after dark.`
-      : `Demand outruns supply for part of the day. This fleet needs more firm capacity or storage to keep the lights on.`;
+      ? `At this coal level the grid cannot meet evening demand. Solar output is zero after sunset, when demand is highest. Clean power needs firm capacity and storage to cover the evening peak.`
+      : `Supply falls short of demand for part of the day. This fleet needs more firm capacity or storage.`;
   } else if (r.coalShare > 55) {
     dot = col('var(--coal)');
-    title = `Reliable — but coal pays for it`;
-    body = `Roughly where India sits today: the grid holds, at the cost of heavy carbon and a large fuel-import bill. The security is real; so is the price.`;
+    title = `Reliable, but coal-heavy`;
+    body = `Close to India's grid today. Supply is reliable, but carbon emissions and the fuel-import bill are high.`;
   } else if (r.coalShare < 25 && r.cleanShare > 70) {
     dot = col('var(--wind)');
-    title = `Clean and reliable — at a price`;
-    body = `Coal is largely gone and the lights still stay on through the evening, because clean power is backed by firm capacity and storage. The capital bill below is what doing it for real costs.`;
+    title = `Clean and reliable`;
+    body = `Coal is nearly gone and the grid still meets the evening peak, because clean power is backed by firm capacity and storage. The capital cost is shown below.`;
   } else {
     dot = col('var(--solar)');
     title = `A workable transition`;
-    body = `Coal is falling and the grid still balances. Keep pushing it down and watch the evening peak — that's where the difficulty lives.`;
+    body = `Coal is falling and the grid still balances. Push coal lower and watch the evening peak, where shortfalls appear first.`;
   }
   document.getElementById('verdict').innerHTML =
     `<span class="dot" style="background:${dot}"></span><div><strong>${title}</strong>${body}</div>`;
@@ -596,7 +596,7 @@ function renderCapex(t, r) {
   document.getElementById('capex-big').textContent =
     lakhCr < 0.005 ? '₹0' : '₹' + fmt(lakhCr, lakhCr<10?1:0) + ' lakh crore';
   document.getElementById('capex-usd').textContent =
-    lakhCr < 0.005 ? '— this is today’s fleet' : '≈ $' + fmt(usdBn) + ' billion';
+    lakhCr < 0.005 ? '— today’s fleet, nothing added' : '≈ $' + fmt(usdBn) + ' billion';
 
   const maxCr = Math.max(1, ...t.items.map(i=>i.cr));
   document.getElementById('capex-bars').innerHTML = t.items
@@ -611,9 +611,9 @@ function renderCapex(t, r) {
   const budgetPct = lakhCr / 50.7 * 100; // FY26 union budget ≈ ₹50.7 lakh crore
   const ctx = [];
   if (lakhCr >= 0.05) {
-    ctx.push(`About <b>${fmt(budgetPct)}%</b> of a full year's union budget — the scale of the national commitment required.`);
+    ctx.push(`About <b>${fmt(budgetPct)}%</b> of one year's union budget.`);
   }
-  ctx.push(`Fossil-fuel imports in this scenario: <b>$${fmt(r.importBn)} bn a year</b> — the recurring cost that building clean buys down.`);
+  ctx.push(`Fossil-fuel imports in this scenario: <b>$${fmt(r.importBn)} bn a year</b>, the recurring cost that clean capacity reduces.`);
   document.getElementById('capex-ctx').innerHTML = ctx.map(c=>`<li>${c}</li>`).join('');
 }
 
